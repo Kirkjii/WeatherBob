@@ -1,3 +1,5 @@
+
+# Imports for json handling and other stuff.
 import requests
 import json
 import datetime
@@ -9,29 +11,31 @@ def naytaSaa(city):
     global d
     kaupunki = city
     loytyyko = False
-    file = open("/home/pi/city.list.json")
+    file = open("/home/pi/city.list.json") # <- Specify your path to city.list.json here. It can be downloaded from the repository.
     with file as json_data:
         
-        d = json.load(json_data)
-        file.close()
-        lista = len(d)
+        
+        d = json.load(json_data) # Load the contents of city.list to a variable.
+        file.close() # Close the file when reading is done.
+        lista = len(d) # Store the length of city.list array to a variable.
     
-    for i in range (0, lista):
+    for i in range (0, lista): # Compare the given city name to the array if it's there
         if(d[i]["name"] == kaupunki):
             print("löytyy")             
-            loytyyko = True
+            loytyyko = True # If the given city name exists, stop the for-loop and proceed to if-statement.
             break
                     
     if(loytyyko == True):
     
-        url =  requests.get("http://api.openweathermap.org/data/2.5/weather?q="+kaupunki+"&APPID={INSERT YOUR OPENWEATHERMAP API-KEY HERE}")
-        data = json.loads(url.text)
-        celcius = data["main"]["temp"] - 273.15
-        windSpeed = "wind speed: " + str(data["wind"]["speed"]) + " m/s"
-        name = data["name"]
-        temperature = ("Temperature: " + "%.2f" % celcius + " °C")
-        description = data["weather"][0]["description"]
+        url =  requests.get("http://api.openweathermap.org/data/2.5/weather?q="+kaupunki+"&APPID={INSERT YOUR OPENWEATHERMAP API-KEY HERE}") # Read the contents of the given city name from the OpenWeatherMap API.
+        data = json.loads(url.text) # Store the contents to a variable.
+        celcius = data["main"]["temp"] - 273.15 # Temperature conversions.
+        windSpeed = "wind speed: " + str(data["wind"]["speed"]) + " m/s" # Query from json.
+        name = data["name"] # Query from json.
+        temperature = ("Temperature: " + "%.2f" % celcius + " °C") # Query from json.
+        description = data["weather"][0]["description"] # Query from json.
     
+        # Print and return data.
         print(name)
         print(temperature)
         print(description)
@@ -40,10 +44,10 @@ def naytaSaa(city):
         return name, currentDateTime, temperature, description, windSpeed
 
     else:
-        return kaupunki + " Ei löytynyt listalta. Huomioi iso alkukirjain ja oikeinkirjoitus."
+        return kaupunki + " Ei löytynyt listalta. Huomioi iso alkukirjain ja oikeinkirjoitus." # Given city name not found. Return an error message.
 
 
-TOKEN = "INSERT YOUR TELEGRAM API-KEY HERE" #botin token, pitää poistaa ennen ku laittaa gittiin
+TOKEN = "INSERT YOUR TELEGRAM API-KEY HERE" # Token of the Telegram bot.
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 
 def getUrl(url):
