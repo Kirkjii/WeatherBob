@@ -24,7 +24,7 @@ def naytaSaa(city):
                     
     if(loytyyko == True):
     
-        url =  requests.get("http://api.openweathermap.org/data/2.5/weather?q="+kaupunki+"&APPID=cac29eac6e8dbc16dd460d8ec45c02ff")
+        url =  requests.get("http://api.openweathermap.org/data/2.5/weather?q="+kaupunki+"&APPID={INSERT YOUR OPENWEATHERMAP API-KEY HERE}")
         data = json.loads(url.text)
         celcius = data["main"]["temp"] - 273.15
         windSpeed = "wind speed: " + str(data["wind"]["speed"]) + " m/s"
@@ -43,7 +43,7 @@ def naytaSaa(city):
         return kaupunki + " Ei löytynyt listalta. Huomioi iso alkukirjain ja oikeinkirjoitus."
 
 
-TOKEN = "538827014:AAFr_vbLVV_FV3IdPMD98WDqTyFXz3B4wlQ" #botin token, pitää poistaa ennen ku laittaa gittiin
+TOKEN = "INSERT YOUR TELEGRAM API-KEY HERE" #botin token, pitää poistaa ennen ku laittaa gittiin
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 
 def getUrl(url):
